@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:component-scan base-package="com.kan.*"></context:component-scan>
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- sqlsessionfactory 依赖注入 datasource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 管理 mybatis 的映射配置文件，该属性可管理多个配置文件 name：表示该标签是管理 mybatis 的映射配置文件 value：表示在类路径下需要管理的 mybatis 的映射配置文件 -->
+		<property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+		<!-- 在包的前提下为数据 bean 取别名 name：表示是基于包为数据 bean 取别名 value：表示为哪个包下取别名 -->
+		<property name="typeAliasesPackage" value="com.ssm.bean"></property>
+	</bean>
+	
+	<!-- 引入数据源配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 5、dataSource bean -->
+	<bean id="dataSource"	class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 配置 c3p0 连接池参数 -->
+		<property name="driverClass" value="${db.driver}"></property>
+		<property name="jdbcUrl" value="${db.url}"></property>
+		<property name="user" value="${db.username}"></property>
+		<property name="password" value="${db.password}"></property>
+	</bean>
+	
+		<!-- 6、声明式事务 bean -->
+<!-- 	<bean id="dataSourceTransactionManager" -->
+<!-- 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 	</bean> -->
+</beans>

@@ -1,0 +1,7 @@
+isAnnotationPresent
+getAnnotation   isAssignableFrom   getParameterAnnotations
+
+ wsimport -s F:\\test\\reflect\\webclient\\src\\com\\kan\\givemeword  -p com.shu.service -keep http://localhost:9001/Service/Function
+ com.kan.function
+ 
+ wsimport -s F:\\test\\reflect\\webclient\\src -p com.kan.givemeword -keep http://localhost:9001/Service/Function?wsdl
